@@ -1,0 +1,19 @@
+.Tip-side {
+  grid-area: side;
+  height: 100%;
+  padding-left: 10px;
+  background-color: #fff;
+  color: black; }
+  .Tip-side .Tip-intro {
+    font-size: 1em;
+    margin-top: 1em;
+    padding: 10px;
+    line-height: 1.8em; }
+    .Tip-side .Tip-intro .Tip-about {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block; }
+      .Tip-side .Tip-intro .Tip-about:not(:first-child) {
+        margin-top: 3em; }
+    .Tip-side .Tip-intro .Tip-flow-chart {
+      cursor: pointer; }

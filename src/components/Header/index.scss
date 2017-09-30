@@ -1,0 +1,31 @@
+.Tip-header {
+  padding: 10px 0 0 10px;
+  grid-area: head;
+  .Tip-brand {
+    grid-area: brand;
+    background-color: #fff;
+    color: #6f6f6f;
+    .Tip-logo {
+      height: 80px;
+    }
+    .Tip-logo-text {
+      display: inline-block;
+      vertical-align: middle;
+      .Tip-title {
+        margin-left: 10px;
+        font-size: 1.5em;
+        display: inline-block;
+        letter-spacing: 0.5em;
+      }
+      .Tip-title-tag {
+        font-size: 0.5em;
+        display: block;
+      }
+    }
+  }
+
+  .Tip-menu {
+    grid-area: menu;
+    background-color: #afafaf;
+  }
+}

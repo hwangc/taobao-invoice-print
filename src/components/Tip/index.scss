@@ -1,0 +1,7 @@
+.Tip {
+  display: grid;
+  grid-template-areas: "head main main main" "side  main   main main" "side  footer  footer footer";
+  grid-template-columns: minmax(auto, 300px) minmax(300px, auto) 1fr;
+  grid-template-rows: auto auto 4em;
+  grid-gap: 10px;
+}
