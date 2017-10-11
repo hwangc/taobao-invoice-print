@@ -1,4 +1,9 @@
 .Tip-main {
+  display: inline-grid;
   text-align: center;
   grid-area: main;
-  padding: 5em; }
+  padding: 2em;
+  box-shadow: inset 2px -2px 3px 0px #9c9c9c;
+  margin: 0; }
+  .Tip-main #lp_form {
+    margin-bottom: 6em; }
