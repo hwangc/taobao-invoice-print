@@ -8,11 +8,13 @@ class Header extends PureComponent {
     return (
       <header className="Tip-header">
         <div className="Tip-brand">
-          <img src={!this.props.loading ? logo : spinner} className="Tip-logo" alt="logo" />
-          <div className="Tip-logo-text">
-            <h1 className="Tip-title">TIP</h1>
-            <span className="Tip-title-tag">Taobao Invoice Print</span>
-          </div>
+          <a href="/">
+            <img src={!this.props.loading ? logo : spinner} className="Tip-logo" alt="logo" />
+            <div className="Tip-logo-text">
+              <h1 className="Tip-title">TIP</h1>
+              <span className="Tip-title-tag">Taobao Invoice Print</span>
+            </div>
+          </a>
         </div>
       </header>
     );

@@ -2,10 +2,6 @@ import React, { PureComponent } from "react";
 import "./index.css";
 
 class PrintResultTable extends PureComponent {
-  // shouldComponentUpdate(newProps) {
-  // newProps should have not same lp from the previous result list unless it was fail
-  // }
-
   render() {
     const printResult = this.props.printResultList.map(print => {
       console.log("print ", print);
@@ -14,13 +10,6 @@ class PrintResultTable extends PureComponent {
           <td>{print.id}</td>
           <td>{print.lp}</td>
           <td>{print.status}</td>
-          {/* <td>
-            {print.action !== "" && (
-              <a href={print.action} className="preview" target="_blank">
-                Preview
-              </a>
-            )}
-          </td> */}
           <td>{print.date}</td>
         </tr>
       );
