@@ -57,7 +57,7 @@ class Side extends PureComponent {
           <span className="Tip-about">Required</span>
           <ul>
             <li>Barcode Scanner</li>
-            <li>CAINIAO Printing Tool</li>
+            <li><a href="http://cdn-cloudprint.cainiao.com/waybill-print/client/CNPrintSetup.exe">CAINIAO Printing Tool</a></li>
             <li>Printer</li>
           </ul>
           <span className="Tip-about">Development</span>

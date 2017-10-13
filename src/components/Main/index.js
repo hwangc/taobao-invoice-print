@@ -12,9 +12,9 @@ class Main extends PureComponent {
     };
     this._printFail = null;
     this._printSuccess = null;
-    this._baseURL = `http://localhost:4000/top`;
-    this._printer = "SINDOH D410 Series PCL";
-    this._preview = true;
+    this._baseURL = `http://ppbapps.asuscomm.com:9093/top`;
+    this._printer = "ZDesigner GK420d (EPL)";
+    this._preview = false;
     this.loadingChecker = this.isLoading.bind(this);
     this.hidePopUpWithSound = this.hidePopUpWithSound.bind(this);
     this.showPopUpWithSound = this.showPopUpWithSound.bind(this);
