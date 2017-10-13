@@ -13,7 +13,16 @@ class Main extends PureComponent {
     this._printFail = null;
     this._printSuccess = null;
     this._baseURL = `http://ppbapps.asuscomm.com:9093/top`;
-    this._printer = "ZDesigner GK420d (EPL)";
+    /* 
+      Please do not define the printer name unless it only uses the specific printer
+      if it is empty, it will use a primary printer connected to a computer
+      * eventually it should be chosen by user
+    */
+    this._printer = "";
+    /* 
+      If preview is true, it won't let the printer do print immediately but let user maually choose to print or delete from cainiao printing tool
+      * eventually it should be chosen by user
+    */
     this._preview = false;
     this.loadingChecker = this.isLoading.bind(this);
     this.hidePopUpWithSound = this.hidePopUpWithSound.bind(this);
@@ -109,9 +118,9 @@ class Main extends PureComponent {
       })
       .then(result => {
         const printData = JSON.parse(result.waybillurl);
-        // Start Print * if isPreview is true, it won't immediately start printing the invoice but wait for the manual start
+        // Start Print
         doPrint(this.setPrintData({ lp, printData }));
-        /* End Print */
+        // End Print
         this.isLoading(false);
         return true;
       })
@@ -184,13 +193,23 @@ class Main extends PureComponent {
     }
   }
 
+  previewModeAction(event) {
+    if (event.target.value === "on") {
+      event.target.value = "off";
+      this._preview = true;
+    } else {
+      event.target.value = "on";
+      this._preview = false;
+    }
+  }
+
   submitAction(event) {
     event.preventDefault();
     const baseUrl = this._baseURL;
     const lp = this.state.lp;
 
     this.printInvoice(baseUrl, lp);
-    this.resetAction();
+    this.cancelAction();
   }
 
   setLP(event) {
@@ -219,6 +238,11 @@ class Main extends PureComponent {
                     onChange={e => this.setLP(e)}
                     onKeyPress={e => this.submitActionByEnterKey(e)}
                   />
+                  <div className="checkbox col-sm-3 col-sm-offset-9">
+                    <label>
+                      <input type="checkbox" onClick={e => this.previewModeAction(e)} />Preview Mode
+                    </label>
+                  </div>
                 </div>
                 <div className="col-sm-2">
                   <button onClick={e => this.submitAction(e)} type="button" id="submit-lp" className="btn btn-primary">
