@@ -57,7 +57,9 @@ class Side extends PureComponent {
           <span className="Tip-about">Required</span>
           <ul>
             <li>Barcode Scanner</li>
-            <li><a href="http://cdn-cloudprint.cainiao.com/waybill-print/client/CNPrintSetup.exe">CAINIAO Printing Tool</a></li>
+            <li>
+              <a href="http://cdn-cloudprint.cainiao.com/waybill-print/client/CNPrintSetup.exe">CAINIAO Printing Tool</a>
+            </li>
             <li>Printer</li>
           </ul>
           <span className="Tip-about">Development</span>
@@ -69,7 +71,7 @@ class Side extends PureComponent {
           <span className="Tip-about">Contact</span>
           <a href="mailto:hoyean.hwang@ppbstudios.com">hoyean.hwang@ppbstudios.com</a>
           <span className="Tip-about">Version</span>
-          v1.0.0
+          v1.0.1
         </div>
         {/* Modal */}
         <div
