@@ -1,4 +1,5 @@
 .Tip-footer {
-  grid-area: footer;
+  grid-column: 2/col-end;
+  grid-row: 3/row-end;
   text-align: center;
 }

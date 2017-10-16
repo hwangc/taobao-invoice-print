@@ -1,7 +1,8 @@
 .Tip-side {
-  grid-area: side;
-  height: 100%;
-  padding-left: 10px;
+  grid-column: col-start/2;
+  grid-row: 2/row-end;
+  margin-left: 10px;
+  margin-bottom: 10px;
   background-color: #fff;
   color: black; }
   .Tip-side .Tip-intro {

@@ -10,6 +10,7 @@ class Main extends PureComponent {
     this.state = {
       lp: ""
     };
+    this._submittedLP = "";
     this._printFail = null;
     this._printSuccess = null;
     this._baseURL = `http://ppbapps.asuscomm.com:9093/top`;
@@ -30,9 +31,15 @@ class Main extends PureComponent {
   }
 
   componentDidMount() {
+    this.setFullHeightEl();
     this.setPrintResultPopUpEl();
     this.setSocketMessage();
     this.setCursorFocus2Input();
+  }
+
+  setFullHeightEl() {
+    const heightScreen = window.innerHeight;
+    document.getElementsByClassName("Tip-main")[0].setAttribute("style", "height:" + heightScreen + "px");
   }
 
   setPrintResultPopUpEl() {
@@ -162,7 +169,7 @@ class Main extends PureComponent {
       if (this._printFail.classList.contains("hide")) {
         this._printFail.classList.remove("hide");
       }
-      this._printFail.getElementsByClassName("alert-heading")[0].innerHTML = this.state.lp;
+      this._printFail.getElementsByClassName("alert-heading")[0].innerHTML = this._submittedLP;
       this._printFail.getElementsByClassName("alert-sound")[0].play();
     }
 
@@ -170,7 +177,7 @@ class Main extends PureComponent {
       if (this._printSuccess.classList.contains("hide")) {
         this._printSuccess.classList.remove("hide");
       }
-      this._printSuccess.getElementsByClassName("alert-heading")[0].innerHTML = this.state.lp;
+      this._printSuccess.getElementsByClassName("alert-heading")[0].innerHTML = this._submittedLP;
       this._printSuccess.getElementsByClassName("alert-sound")[0].play();
     }
   }
@@ -206,9 +213,9 @@ class Main extends PureComponent {
   submitAction(event) {
     event.preventDefault();
     const baseUrl = this._baseURL;
-    const lp = this.state.lp;
+    this._submittedLP = this.state.lp;
 
-    this.printInvoice(baseUrl, lp);
+    this.printInvoice(baseUrl, this._submittedLP);
     this.cancelAction();
   }
 
@@ -220,65 +227,57 @@ class Main extends PureComponent {
 
   render() {
     return (
-      <div className="Tip-main container-fluid">
-        <div className="row">
-          <div className="col-sm-1 mr-auto" />
-          <div className="col-sm-10">
-            <h2 className="scanTitle">{!this.state.lp ? "Scan LP No." : <strong>{this.state.lp}</strong>}</h2>
-            <form name="lp_form" id="lp_form" className="mx-auto">
-              <div className="form-group row has-success">
-                <div className="col-sm-10">
-                  <input
-                    name="lp_number"
-                    type="text"
-                    style={{ marginRight: "10px" }}
-                    value={this.state.lp}
-                    className="form-control"
-                    id="lp_number"
-                    onChange={e => this.setLP(e)}
-                    onKeyPress={e => this.submitActionByEnterKey(e)}
-                  />
-                  <div className="checkbox col-sm-3 col-sm-offset-9">
-                    <label>
-                      <input type="checkbox" onClick={e => this.previewModeAction(e)} />Preview Mode
-                    </label>
-                  </div>
-                </div>
-                <div className="col-sm-2">
-                  <button onClick={e => this.submitAction(e)} type="button" id="submit-lp" className="btn btn-primary">
-                    Submit
-                  </button>
-                  <button onClick={() => this.cancelAction()} type="button" id="submit-lp" className="btn btn-light">
-                    Cancel
-                  </button>
+      <div className="Tip-main">
+        <section className="scan-section">
+          <h2 className="scanTitle">{!this.state.lp ? "Scan LP No." : <strong>{this.state.lp}</strong>}</h2>
+          <form name="lp_form" id="lp_form" className="mx-auto">
+            <div className="form-group row has-success">
+              <div className="col-sm-10">
+                <input
+                  name="lp_number"
+                  type="text"
+                  style={{ marginRight: "10px" }}
+                  value={this.state.lp}
+                  className="form-control"
+                  id="lp_number"
+                  onChange={e => this.setLP(e)}
+                  onKeyPress={e => this.submitActionByEnterKey(e)}
+                />
+                <div className="checkbox col-sm-3 col-sm-offset-9">
+                  <label>
+                    <input type="checkbox" onClick={e => this.previewModeAction(e)} />Preview Mode
+                  </label>
                 </div>
               </div>
-            </form>
-          </div>
-          <div className="col-sm-1 mr-auto" />
-        </div>
-        <div className="row">
-          <div className="col-sm-1 mr-auto" />
-          <div className="col-sm-10">
-            <div id="successResult" className="alert alert-dismissible alert-success hide">
-              <h4 className="alert-heading">lpNo</h4>
-              <hr />
-              <strong>Well done!</strong> Successfully printed.
-              <audio className="alert-sound">
-                <source src={successSound} />
-              </audio>
+              <div className="col-sm-2">
+                <button onClick={e => this.submitAction(e)} type="button" id="submit-lp" className="btn btn-primary">
+                  Submit
+                </button>
+                <button onClick={() => this.cancelAction()} type="button" id="submit-lp" className="btn btn-light">
+                  Cancel
+                </button>
+              </div>
             </div>
-            <div id="failResult" className="alert alert-dismissible alert-danger hide">
-              <h4 className="alert-heading">lpNo</h4>
-              <hr />
-              <strong>Oh snap!</strong> Print failed. Please check the LP number.
-              <audio className="alert-sound">
-                <source src={failSound} />
-              </audio>
-            </div>
+          </form>
+        </section>
+        <section className="result-section">
+          <div id="successResult" className="alert alert-dismissible alert-success hide">
+            <h4 className="alert-heading">lpNo</h4>
+            <hr />
+            <strong>Well done!</strong> Successfully printed.
+            <audio className="alert-sound">
+              <source src={successSound} />
+            </audio>
           </div>
-          <div className="col-sm-1 mr-auto" />
-        </div>
+          <div id="failResult" className="alert alert-dismissible alert-danger hide">
+            <h4 className="alert-heading">lpNo</h4>
+            <hr />
+            <strong>Oh snap!</strong> Print failed. Please check the LP number.
+            <audio className="alert-sound">
+              <source src={failSound} />
+            </audio>
+          </div>
+        </section>
       </div>
     );
   }

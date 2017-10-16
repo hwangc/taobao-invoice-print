@@ -1,13 +1,23 @@
 .Tip-main {
-  display: inline-grid;
   text-align: center;
-  grid-area: main;
+  grid-column: 2/-1;
+  grid-row: row-start/4;
   padding: 2em;
-  box-shadow: inset 2px -2px 3px 0px rgb(156, 156, 156);
   margin: 0;
-  background: #c2e59c; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #64b3f4, #c2e59c); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #64b3f4, #c2e59c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  display: grid;
+  grid-template-areas: "scanSection" "resultSection";
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(8, 1fr);
+  .scan-section {
+    grid-area: scanSection;
+    align-self: center;
+    grid-column: 3/7;
+  }
+  .result-section {
+    grid-area: resultSection;
+    align-self: center;
+    grid-column: 3/7;
+  }
   .scanTitle {
     color: white;
   }

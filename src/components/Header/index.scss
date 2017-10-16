@@ -1,6 +1,7 @@
 .Tip-header {
   padding: 10px 0 0 10px;
-  grid-area: head;
+  grid-row: row-start /2;
+  grid-column: col-start/2;
   .Tip-brand {
     grid-area: brand;
     background-color: #fff;

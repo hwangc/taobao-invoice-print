@@ -42,10 +42,14 @@ class Side extends PureComponent {
     return (
       <div className="Tip-side left">
         <div className="Tip-intro">
-          <span className="Tip-about">About</span>
+          <span className="Tip-about">
+            <i className="fa fa-info fa-lg" aria-hidden="true" /> About
+          </span>
           TIP(<strong>T</strong>aobao <strong>I</strong>nvoice <strong>P</strong>rint) will fetch user order data from Taobao and trigger the printer connected by CAINIAO Printing
           Tool
-          <span className="Tip-about">Flow</span>
+          <span className="Tip-about">
+            <i className="fa fa-tasks fa-lg" aria-hidden="true" /> Flow
+          </span>
           <div
             className="Tip-flow-chart"
             onClick={e => {
@@ -54,7 +58,9 @@ class Side extends PureComponent {
           >
             <img src={flow} alt="tip flow" style={{ width: "100%" }} />
           </div>
-          <span className="Tip-about">Required</span>
+          <span className="Tip-about">
+            <i className="fa fa-wrench fa-lg" aria-hidden="true" /> Required
+          </span>
           <ul>
             <li>Barcode Scanner</li>
             <li>
@@ -62,16 +68,22 @@ class Side extends PureComponent {
             </li>
             <li>Printer</li>
           </ul>
-          <span className="Tip-about">Development</span>
+          <span className="Tip-about">
+            <i className="fa fa-code fa-lg" aria-hidden="true" /> Development
+          </span>
           <ul>
             <li>NodeJS</li>
             <li>ReactJS</li>
             <li>TOP SDK</li>
           </ul>
-          <span className="Tip-about">Contact</span>
+          <span className="Tip-about">
+            <i className="fa fa-envelope fa-lg" aria-hidden="true" /> Contact
+          </span>
           <a href="mailto:hoyean.hwang@ppbstudios.com">hoyean.hwang@ppbstudios.com</a>
-          <span className="Tip-about">Version</span>
-          v1.0.1
+          <span className="Tip-about">
+            <i className="fa fa-code-fork fa-lg" aria-hidden="true" /> Version
+          </span>
+          v1.0.2
         </div>
         {/* Modal */}
         <div
