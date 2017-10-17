@@ -12,11 +12,26 @@
     grid-area: scanSection;
     align-self: center;
     grid-column: 3/7;
+    .previewMode {
+      text-align: right;
+      input {
+        &::after {
+          border: 1px solid #fff;
+          width: 14px;
+          height: 14px;
+        }
+        &:checked::before {
+          left: 5px;
+          width: 5px;
+          height: 9px;
+        }
+      }
+    }
   }
   .result-section {
-    grid-area: resultSection;
     align-self: center;
     grid-column: 3/7;
+    grid-row: 2/3;
   }
   .scanTitle {
     color: white;

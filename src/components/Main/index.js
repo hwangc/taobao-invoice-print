@@ -231,8 +231,8 @@ class Main extends PureComponent {
         <section className="scan-section">
           <h2 className="scanTitle">{!this.state.lp ? "Scan LP No." : <strong>{this.state.lp}</strong>}</h2>
           <form name="lp_form" id="lp_form" className="mx-auto">
-            <div className="form-group row has-success">
-              <div className="col-sm-10">
+            <div className="form-group row">
+              <div className="col-sm-12">
                 <input
                   name="lp_number"
                   type="text"
@@ -243,13 +243,13 @@ class Main extends PureComponent {
                   onChange={e => this.setLP(e)}
                   onKeyPress={e => this.submitActionByEnterKey(e)}
                 />
-                <div className="checkbox col-sm-3 col-sm-offset-9">
+                <div className="checkbox previewMode">
                   <label>
                     <input type="checkbox" onClick={e => this.previewModeAction(e)} />Preview Mode
                   </label>
                 </div>
               </div>
-              <div className="col-sm-2">
+              <div className="col-sm-12">
                 <button onClick={e => this.submitAction(e)} type="button" id="submit-lp" className="btn btn-primary">
                   Submit
                 </button>

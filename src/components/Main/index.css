@@ -12,10 +12,20 @@
     grid-area: scanSection;
     align-self: center;
     grid-column: 3/7; }
+    .Tip-main .scan-section .previewMode {
+      text-align: right; }
+      .Tip-main .scan-section .previewMode input::after {
+        border: 1px solid #fff;
+        width: 14px;
+        height: 14px; }
+      .Tip-main .scan-section .previewMode input:checked::before {
+        left: 5px;
+        width: 5px;
+        height: 9px; }
   .Tip-main .result-section {
-    grid-area: resultSection;
     align-self: center;
-    grid-column: 3/7; }
+    grid-column: 3/7;
+    grid-row: 2/3; }
   .Tip-main .scanTitle {
     color: white; }
   .Tip-main #lp_form {
