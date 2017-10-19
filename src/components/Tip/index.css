@@ -2,4 +2,4 @@
   display: grid;
   align-content: stretch;
   grid-template-columns: [col-start] minmax(auto, 300px) repeat(11, 1fr) [col-end];
-  grid-template-rows: [row-start] minmax(auto, 100%) auto 2em [row-end]; }
+  grid-template-rows: [row-start] minmax(auto, 160px) auto 2em [row-end]; }
