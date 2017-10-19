@@ -13,7 +13,7 @@ class Main extends PureComponent {
     this._submittedLP = "";
     this._printFail = null;
     this._printSuccess = null;
-    this._baseURL = `http://ppbapps.asuscomm.com:9093/top`;
+    this._baseURL = `http://tip-server.ppb.st/top`;
     /* 
       Please do not define the printer name unless it only uses the specific printer
       if it is empty, it will use a primary printer connected to a computer
