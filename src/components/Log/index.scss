@@ -1,0 +1,11 @@
+.Tip-log {
+  grid-column: log-start/-1;
+  grid-row: 1/-1;
+  overflow-y: auto;
+  text-align: center;
+  .lp-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+  }
+}

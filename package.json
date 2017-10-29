@@ -4,10 +4,21 @@
   "private": true,
   "homepage": "http://tip.ppb.st",
   "dependencies": {
+    "apollo-cache-inmemory": "^0.2.0-beta.6",
+    "apollo-client": "^2.0.0-beta.8",
+    "apollo-link": "^0.7.0",
+    "apollo-link-http": "^0.7.0",
+    "apollo-link-ws": "^0.5.0",
+    "graphql": "^0.11.7",
+    "moment": "^2.19.1",
+    "prop-types": "^15.6.0",
     "react": "^16.0.0",
+    "react-apollo": "^1.4.16",
+    "react-datepicker": "^0.57.0",
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.14",
     "react-tooltip": "^3.3.0",
+    "subscriptions-transport-ws": "^0.9.1",
     "xlsx": "^0.11.4"
   },
   "scripts": {

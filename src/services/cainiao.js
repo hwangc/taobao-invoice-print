@@ -2,11 +2,15 @@ export const serviceUrl = `ws://127.0.0.1:13528`;
 export let socket = new WebSocket(serviceUrl);
 
 export function doPrint(request) {
-  if (socketConnStatus()) {
-    socket.send(JSON.stringify(request));
-  } else {
-    alert("Printer Socket state: " + socket.readyState + " ！");
-  }
+  return new Promise((resolve, reject) => {
+    if (socketConnStatus()) {
+      socket.send(JSON.stringify(request));
+      console.log("===> Generated Invoice data Sent to Cainiao successfully ", request);
+      resolve({ result: "success", socketReady: socket.readyState });
+    } else {
+      reject("The Pinter is not yet ready. Please wait or restart the print. Printer Status: " + socket.readyState);
+    }
+  });
 }
 
 function sendMessage(request) {

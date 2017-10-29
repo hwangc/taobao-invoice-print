@@ -11,12 +11,21 @@ class Side extends PureComponent {
   }
 
   componentDidMount() {
-    // Get the modal
+    this.setFullHeightEl();
+    this.setModalEl();
+  }
+
+  setModalEl() {
     this.tipFlowBackDrop = document.getElementsByClassName("tipflow-backdrop")[0];
-    // Get the modal
     this.tipFlowModal = document.getElementById("tipFlowModal");
-    // Get the <span> element that closes the modal
     this.tipFlowDialog = document.getElementsByClassName("modal-dialog")[0];
+  }
+
+  setFullHeightEl() {
+    const heightScreen = window.innerHeight;
+    const headerHeight = document.getElementsByClassName("Tip-header")[0].offsetHeight;
+    const sideHeight = heightScreen - headerHeight;
+    document.getElementsByClassName("Tip-side")[0].setAttribute("style", "height:" + sideHeight + "px");
   }
 
   showFlow(event) {
