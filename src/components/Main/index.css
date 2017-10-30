@@ -7,7 +7,7 @@
   background: rgba(150, 150, 150, 0.5);
   grid-template-rows: 70px 1fr 1fr;
   grid-template-columns: repeat(9, 1fr); }
-  @media screen and (min-width: 600px) {
+  @media screen and (max-width: 1080px) {
     .Tip-main {
       grid-column: 1/log-start;
       grid-row: row-start/-1;
@@ -35,7 +35,7 @@
     align-self: center;
     grid-column: 3/8;
     grid-row: 2/3; }
-    @media screen and (min-width: 600px) {
+    @media screen and (max-width: 1080px) {
       .Tip-main .scan-section {
         grid-column: 1/-1; } }
     .Tip-main .scan-section .form-options {
@@ -66,7 +66,7 @@
         grid-column: 4/5;
         padding: 0;
         margin: 0; }
-        @media screen and (min-width: 600px) {
+        @media screen and (max-width: 1080px) {
           .Tip-main .scan-section .form-options .previewMode input {
             margin: 16px auto 0;
             display: block; } }

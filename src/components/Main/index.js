@@ -81,9 +81,7 @@ class Main extends PureComponent {
   }
 
   cancelAction() {
-    this.setState({
-      lp: ""
-    });
+    this.props.setLP("");
     this.resetAction();
   }
 
