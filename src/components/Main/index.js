@@ -68,7 +68,7 @@ class Main extends PureComponent {
 
   /* ACTIONS */
   insertAction(lp, turn, date, timestamp) {
-    return fetch(`${this.top_api_uri}/insert`, {
+    return fetch(`${top_api_uri}/insert`, {
       method: `POST`,
       body: JSON.stringify({
         lp,
