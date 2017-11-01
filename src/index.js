@@ -9,9 +9,10 @@ import WebSocketLink from "apollo-link-ws";
 import Cache from "apollo-cache-inmemory";
 import { getOperationAST } from "graphql";
 import "./index.css";
+import config from "./services/config";
 //import registerServiceWorker from "./registerServiceWorker";
-const GRAPHQL_ENDPOINT = "http://localhost:4040/graphql";
-const WEBSOCKET_ENDPOINT = "ws://localhost:4040/subscriptions";
+const GRAPHQL_ENDPOINT = config.graphql_uri;
+const WEBSOCKET_ENDPOINT = config.websocket_uri;
 const hasSubscriptionOperation = operation => {
   const operationAST = getOperationAST(operation.query, operation.operationName);
   return !!operationAST && operationAST.operation === "subscription";

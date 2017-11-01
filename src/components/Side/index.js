@@ -8,6 +8,7 @@ class Side extends PureComponent {
     this.tipFlowModal = null;
     this.tipFlowDialog = null;
     this.tipFlowBackDrop = null;
+    this.tipVersion = "v1.2.0";
   }
 
   componentDidMount() {
@@ -92,7 +93,7 @@ class Side extends PureComponent {
           <span className="Tip-about">
             <i className="fa fa-code-fork fa-lg" aria-hidden="true" /> Version
           </span>
-          v1.0.2
+          {this.tipVersion}
         </div>
         {/* Modal */}
         <div

@@ -53,7 +53,7 @@ class Tip extends Component {
           setDateTurn={this.setDateTurn}
           loadingChecker={loading => this.checkIsLoading(loading)}
         />
-        <Log />
+        {/* <Log /> */}
         <Footer />
       </div>
     );

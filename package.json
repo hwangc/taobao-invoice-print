@@ -1,6 +1,6 @@
 {
   "name": "tip",
-  "version": "0.1.0",
+  "version": "1.2.0",
   "private": true,
   "homepage": "http://tip.ppb.st",
   "dependencies": {
@@ -16,6 +16,7 @@
     "react-apollo": "^1.4.16",
     "react-datepicker": "^0.57.0",
     "react-dom": "^16.0.0",
+    "react-onclickoutside": "^6.6.2",
     "react-scripts": "1.0.14",
     "react-tooltip": "^3.3.0",
     "subscriptions-transport-ws": "^0.9.1",
