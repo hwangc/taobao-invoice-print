@@ -8,7 +8,7 @@ class Side extends PureComponent {
     this.tipFlowModal = null;
     this.tipFlowDialog = null;
     this.tipFlowBackDrop = null;
-    this.tipVersion = "v1.2.0";
+    this.tipVersion = "v1.3.0";
   }
 
   componentDidMount() {
