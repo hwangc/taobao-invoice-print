@@ -40,7 +40,7 @@
         grid-column: 1/-1; } }
     .Tip-main .scan-section .form-options {
       display: grid;
-      grid-template-columns: 4fr;
+      grid-template-columns: 5fr;
       grid-template-rows: 1fr;
       grid-auto-columns: 3fr;
       padding: 10px 0; }
@@ -50,13 +50,13 @@
           text-align: center;
           background: transparent; }
       .Tip-main .scan-section .form-options .turnPicker {
-        grid-column: 2/3; }
+        grid-column: 3/4; }
         .Tip-main .scan-section .form-options .turnPicker label {
           margin-right: 12px; }
         .Tip-main .scan-section .form-options .turnPicker #turnInput {
           background: transparent;
           display: inline-block;
-          width: 30%;
+          width: 50%;
           margin: 0 12px; }
         .Tip-main .scan-section .form-options .turnPicker select {
           width: auto;
@@ -68,7 +68,7 @@
           .Tip-main .scan-section .form-options .turnPicker select option {
             color: gray; }
       .Tip-main .scan-section .form-options .previewMode {
-        grid-column: 4/5;
+        grid-column: 5/6;
         padding: 0;
         margin: 0; }
         @media screen and (max-width: 1080px) {

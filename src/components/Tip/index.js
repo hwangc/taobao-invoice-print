@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Header from "../Header";
 import Side from "../Side";
 import Main from "../../containers/Main";
-import Log from "../Log";
+// import Log from "../Log";
 import Footer from "../Footer";
 import "./index.css";
 import moment from "moment";

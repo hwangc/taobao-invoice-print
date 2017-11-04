@@ -9,7 +9,7 @@ const TipResult = () => {
         <h4 className="alert-heading">lpNo</h4>
         <hr />
         <strong>Well done!</strong> <br />
-        The Invoice of the LP Successfully sent to the printer.
+        <span className="alert-message">The Invoice of the LP Successfully sent to the printer.</span>
         <audio className="alert-sound">
           <source src={successSound} />
         </audio>

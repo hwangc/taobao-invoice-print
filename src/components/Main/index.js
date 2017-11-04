@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import { top_api_uri } from "../../services/config";
 import { doPrint, socket, serviceUrl } from "../../services/cainiao";
 import "./index.css";
+import { gql } from "react-apollo";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,6 +10,14 @@ import moment from "moment";
 import TipStatus from "./components/StatusBar";
 import TipScanLpNo from "./components/ScanLpNo";
 import TipResult from "./components/Sections/Result";
+
+const SUBSCRIPTION = gql`
+  subscription DoSubscription($date: String!, $turn: Int!) {
+    subscribeLpTotal(date: $date, turn: $turn) {
+      totalLP
+    }
+  }
+`;
 
 class Main extends PureComponent {
   constructor(props) {
@@ -42,7 +51,7 @@ class Main extends PureComponent {
 
   /* REACT CYCLE */
   componentWillMount() {
-    this._unsubscribeHandle = this.props.subscribeNewLpTotal({ date: this.props.date, turn: this.props.turn });
+    this._unsubscribeHandle = this.newUnsubscribeHandle({ date: this.props.date, turn: this.props.turn });
   }
 
   componentDidMount() {
@@ -54,19 +63,60 @@ class Main extends PureComponent {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.date !== this.props.date || newProps.turn !== this.props.turn) {
-      console.log("unsubscribe handle");
-      this._unsubscribeHandle();
-      console.log("new props ", newProps.date, "-", newProps.turn);
-      this.props.subscribeNewLpTotal({ date: newProps.date, turn: newProps.turn });
-      this.props.data.refetch(newProps.date, newProps.turn);
-      if (newProps.date !== this.props.date) {
-        this.initTurn();
+    if (newProps.data.loading) {
+      if (this._unsubscribeHandle) {
+        if (newProps.date !== this.props.date || newProps.turn !== this.props.turn) {
+          this._unsubscribeHandle();
+          if (newProps.date !== this.props.date) {
+            this.initTurn();
+          }
+        } else {
+          return;
+        }
       }
+
+      this._unsubscribeHandle = this.newUnsubscribeHandle({ date: newProps.date, turn: newProps.turn });
     }
+    // if (newProps.date !== this.props.date || newProps.turn !== this.props.turn) {
+    //   console.log("unsubscribe handle from componentWillReceiveProps ID: ", this._unsubscribeHandle);
+    //   this._unsubscribeHandle();
+    //   console.log("new props ", newProps.date, "-", newProps.turn);
+    //   this._unsubscribeHandle = this.props.subscribeNewLpTotal({ date: newProps.date, turn: newProps.turn });
+    // this.props.data.refetch(newProps.date, newProps.turn);
+    // if (newProps.date !== this.props.date) {
+    // }
+  }
+
+  componentWillUnmount() {
+    console.log("unsubscribe handle from ComponentWillUnmount ID: ", this._unsubscribeHandle);
+    this._unsubscribeHandle();
   }
 
   /* ACTIONS */
+  newUnsubscribeHandle = ({ date, turn }) => {
+    console.log("-----> Subscribe new date: ", date, " and turn: ", turn);
+    return this.props.data.subscribeToMore({
+      document: SUBSCRIPTION,
+      variables: {
+        date: date,
+        turn: turn
+      },
+      updateQuery: (prevData, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prevData;
+        }
+        const newLpTotal = subscriptionData.data.subscribeLpTotal;
+        console.log("-----> updateQuery Prev Data: ", prevData, ", New Data: ", subscriptionData.data);
+        return Object.assign({}, prevData, {
+          queryLpTotal: Object.assign({}, prevData.queryLpTotal, {
+            totalLP: newLpTotal.totalLP
+          })
+        });
+      },
+      onError: err => console.error(err)
+    });
+  };
+
   insertAction(lp, turn, date, timestamp) {
     return fetch(`${top_api_uri}/insert`, {
       method: `POST`,
@@ -110,15 +160,47 @@ class Main extends PureComponent {
         return doPrint(invoiceData);
       })
       .catch(reason => {
-        this.showPopUpWithSound("fail", reason);
+        this.showPopUpWithSound("fail", this._submit.lp, reason);
         this.isLoading(false);
-        console.log("===> Error Couldn't successfully submit the LP: ", reason);
+        console.log("-----> Error Couldn't successfully submit the LP: ", reason);
       });
-    this.cancelAction();
+    this.cancelAction(event);
+  }
+
+  downloadAction(event) {
+    event.preventDefault();
+    if (window.confirm("Are you sure to donwload csv file?")) {
+      window.open(`${top_api_uri}/download/${this.props.date}`);
+      //   fetch(`${top_api_uri}/download/${this.props.date}`, {
+      //     method: "GET"
+      //   })
+      //     .then(res => {
+      //       console.log("res success", res);
+      //       // return res.json();
+      //     })
+      //     // .then(result => {
+      //     //   if (result.err) {
+      //     //     return Promise.reject(`${result.err}`);
+      //     //   } else {
+      //     //     this.showPopUpWithSound("success", `${this.props.date}.csv`, "Downloaded!");
+      //     //     return "success";
+      //     //   }
+      //     // })
+      //     .catch(reason => {
+      //       alert(`Download Fail: ${reason}`);
+      //     });
+    }
   }
 
   datePickerAction(date) {
     this.props.setDateTurn(date, "1");
+  }
+
+  turnPickerActionByEnterKey(event) {
+    if (event.charCode === 13) {
+      event.preventDefault();
+      this.turnPickerAction(event, event.target.value);
+    }
   }
 
   turnPickerAction(event, newTurn) {
@@ -146,7 +228,8 @@ class Main extends PureComponent {
     this.setCursorFocus2Input();
   }
 
-  cancelAction() {
+  cancelAction(event) {
+    event.preventDefault();
     this.props.setLP("");
     this.resetAction();
   }
@@ -224,7 +307,7 @@ class Main extends PureComponent {
     const isLoading = this.isLoading.bind(this);
 
     socket.onopen = function(event) {
-      console.log("===> Socket is open");
+      console.log("-----> Socket is open");
     };
 
     socket.onmessage = function(event) {
@@ -233,30 +316,30 @@ class Main extends PureComponent {
       const turn = response.requestID.split("|")[0];
       const date = response.requestID.split("|")[1];
       const timestamp = moment(response.timeStamp).format("YYYY-MM-DD HH:mm:ss");
-      console.log("===> WebSocket client received a message", event);
+      console.log("-----> WebSocket client received a message", event);
       if (response.cmd === "print" && response.status === "success") {
         console.log("socket subscribe date ", date, ", turn ", turn);
         insertAction(lp, turn, date, timestamp)
           .then(insertRes => {
-            showPopUpWithSound("success");
+            showPopUpWithSound("success", lp);
             isLoading(false);
-            console.log("===> Invoice Print success");
+            console.log("-----> Invoice Print success");
           })
           .catch(reason => {
-            showPopUpWithSound("fail", reason);
+            showPopUpWithSound("fail", lp, reason);
             isLoading(false);
-            console.log("===> Error Couldn't insert LP: %c" + reason, "color:red");
+            console.log("-----> Error Couldn't insert LP: %c" + reason, "color:red");
           });
       } else if (response.cmd === "print" && response.status === "failed") {
-        showPopUpWithSound("fail", response.msg);
+        showPopUpWithSound("fail", "Wrong LP Number", response.msg);
         isLoading(false);
-        console.log("===> Invoice Print failed: %c" + response.msg, "color:red;font-size:2em");
+        console.log("-----> Invoice Print failed: %c" + response.msg, "color:red;font-size:2em", lp);
       }
 
       if (response.cmd === "getPrinterConfig" && response.status === "success") {
-        console.log('===> Printer"', response.printer.name, '" is ready');
+        console.log('-----> Printer"', response.printer.name, '" is ready');
       } else if (response.cmd === "getPrinterConfig" && response.status === "failed") {
-        alert("===> Printer is not ready. Please restart Cainiao tool");
+        alert("-----> Printer is not ready. Please restart Cainiao tool");
       }
     };
 
@@ -279,12 +362,12 @@ class Main extends PureComponent {
     this.props.loadingChecker(loading);
   }
 
-  showPopUpWithSound(whichPopUp, alertMsg = "") {
+  showPopUpWithSound(whichPopUp, alertHeading = "", alertMsg = "") {
     if (whichPopUp === "fail") {
       if (this._printFailEl.classList.contains("hide")) {
         this._printFailEl.classList.remove("hide");
       }
-      this._printFailEl.getElementsByClassName("alert-heading")[0].innerHTML = this._submit.lp ? this._submit.lp : "Hey, Scan LP first!";
+      this._printFailEl.getElementsByClassName("alert-heading")[0].innerHTML = alertHeading ? alertHeading : "Hey, Scan LP first!";
       this._printFailEl.getElementsByClassName("alert-message")[0].innerHTML = alertMsg ? alertMsg : "Please check LP number";
       this._printFailEl.getElementsByClassName("alert-sound")[0].play();
     }
@@ -293,7 +376,8 @@ class Main extends PureComponent {
       if (this._printSuccessEl.classList.contains("hide")) {
         this._printSuccessEl.classList.remove("hide");
       }
-      this._printSuccessEl.getElementsByClassName("alert-heading")[0].innerHTML = this._submit.lp;
+      this._printSuccessEl.getElementsByClassName("alert-heading")[0].innerHTML = alertHeading ? alertHeading : this._submit.lp;
+      this._printSuccessEl.getElementsByClassName("alert-message")[0].innerHTML = alertMsg ? alertMsg : "The Invoice of the LP Successfully sent to the printer.";
       this._printSuccessEl.getElementsByClassName("alert-sound")[0].play();
     }
   }
@@ -345,8 +429,8 @@ class Main extends PureComponent {
 
   /* RENDER */
   render() {
-    const { data: { loading, error, queryLpTotal, queryTurnByDate } } = this.props;
-    if (!loading) console.log("this props queryLpTotal", queryLpTotal);
+    const { data: { loading, error, queryLpTotal } } = this.props;
+    if (!loading) console.log("-----> Render after loading");
     return (
       <div className="Tip-main">
         <TipStatus date={this.props.date} turn={this.props.turn} total={error ? "Server Query Error" : loading ? "Loading.." : queryLpTotal.totalLP} />
@@ -375,26 +459,32 @@ class Main extends PureComponent {
                       placeholderText="Please Select Date!"
                     />
                   </div>
+                  <button id="download-lp" className="btn btn-default btn-xs" onClick={e => this.downloadAction(e)}>
+                    Download CSV
+                  </button>
                   <div className="turnPicker">
-                    <label htmlFor="turn" className="col-lg-2 control-label">
+                    <label htmlFor="turn-picker" className="col-lg-2 control-label">
                       Turn
                     </label>
-                    <input type="text" name="turn" id="turnInput" />
-                    <button className="btn btn-default btn-xs" onClick={e => this.turnPickerAction(e, this.getTurnInput())}>
-                      Switch
-                    </button>
+                    <input type="text" name="turn-picker" id="turnInput" onKeyPress={e => this.turnPickerActionByEnterKey(e)} />
                   </div>
+                  <button id="switch-turn" className="btn btn-default btn-xs" onClick={e => this.turnPickerAction(e, this.getTurnInput())}>
+                    Switch Turn
+                  </button>
                   <div className="checkbox previewMode">
-                    <label className="col-lg-2 control-label">Preview</label>
-                    <input type="checkbox" onClick={e => this.previewModeAction(e)} />
+                    <label htmlFor="preview-mode" className="col-lg-2 control-label">
+                      Preview
+                    </label>
+                    <input type="checkbox" name="preview-mode" onClick={e => this.previewModeAction(e)} />
                   </div>
                 </div>
               </div>
               <div className="form-buttons">
-                <button onClick={e => this.submitAction(e)} type="button" id="submit-lp" className="btn btn-primary">
+                <button id="submit-lp" className="btn btn-primary" onClick={e => this.submitAction(e)}>
                   Submit
                 </button>
-                <button onClick={() => this.cancelAction()} type="button" id="submit-lp" className="btn btn-light">
+
+                <button id="cancel-lp" className="btn btn-light" onClick={e => this.cancelAction(e)}>
                   Cancel
                 </button>
               </div>
