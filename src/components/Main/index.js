@@ -56,6 +56,7 @@ class Main extends PureComponent {
 
   componentDidMount() {
     this.setFullHeightEl();
+    this.setFullHeightElResizeEvent();
     this.setPrintResultPopUpEl();
     this.setSocketMessage();
     this.setCursorFocus2Input();
@@ -77,14 +78,6 @@ class Main extends PureComponent {
 
       this._unsubscribeHandle = this.newUnsubscribeHandle({ date: newProps.date, turn: newProps.turn });
     }
-    // if (newProps.date !== this.props.date || newProps.turn !== this.props.turn) {
-    //   console.log("unsubscribe handle from componentWillReceiveProps ID: ", this._unsubscribeHandle);
-    //   this._unsubscribeHandle();
-    //   console.log("new props ", newProps.date, "-", newProps.turn);
-    //   this._unsubscribeHandle = this.props.subscribeNewLpTotal({ date: newProps.date, turn: newProps.turn });
-    // this.props.data.refetch(newProps.date, newProps.turn);
-    // if (newProps.date !== this.props.date) {
-    // }
   }
 
   componentWillUnmount() {
@@ -94,7 +87,10 @@ class Main extends PureComponent {
 
   /* ACTIONS */
   newUnsubscribeHandle = ({ date, turn }) => {
-    console.log("-----> Subscribe new date: ", date, " and turn: ", turn);
+    console.group("Subscription Client");
+    console.log(" -----> New date: %c" + date, "color:red");
+    console.log(" -----> New turn: %c" + turn, "color:red");
+    console.groupEnd();
     return this.props.data.subscribeToMore({
       document: SUBSCRIPTION,
       variables: {
@@ -106,7 +102,9 @@ class Main extends PureComponent {
           return prevData;
         }
         const newLpTotal = subscriptionData.data.subscribeLpTotal;
-        console.log("-----> updateQuery Prev Data: ", prevData, ", New Data: ", subscriptionData.data);
+        console.group("Update Query");
+        console.log("-----> Prev Total: ", prevData.queryLpTotal.totalLP, ", New Total: ", subscriptionData.data.subscribeLpTotal.totalLP);
+        console.groupEnd();
         return Object.assign({}, prevData, {
           queryLpTotal: Object.assign({}, prevData.queryLpTotal, {
             totalLP: newLpTotal.totalLP
@@ -152,7 +150,9 @@ class Main extends PureComponent {
       turn: this.props.turn,
       date: this.props.date
     };
-    console.log("submit subscribe date: ", this._submit.date, ", turn: ", this._submit.turn);
+    console.group("Submit");
+    console.log("Subscription date: ", this._submit.date, " and turn: ", this._submit.turn);
+    console.groupEnd();
     this.hidePopUpWithSound("all");
     this.isLoading(true);
     this.getInvoiceByLP(baseUrl, this._submit)
@@ -171,24 +171,6 @@ class Main extends PureComponent {
     event.preventDefault();
     if (window.confirm("Are you sure to donwload csv file?")) {
       window.open(`${top_api_uri}/download/${this.props.date}`);
-      //   fetch(`${top_api_uri}/download/${this.props.date}`, {
-      //     method: "GET"
-      //   })
-      //     .then(res => {
-      //       console.log("res success", res);
-      //       // return res.json();
-      //     })
-      //     // .then(result => {
-      //     //   if (result.err) {
-      //     //     return Promise.reject(`${result.err}`);
-      //     //   } else {
-      //     //     this.showPopUpWithSound("success", `${this.props.date}.csv`, "Downloaded!");
-      //     //     return "success";
-      //     //   }
-      //     // })
-      //     .catch(reason => {
-      //       alert(`Download Fail: ${reason}`);
-      //     });
     }
   }
 
@@ -230,7 +212,10 @@ class Main extends PureComponent {
 
   cancelAction(event) {
     event.preventDefault();
+    console.group("Clear Input");
     this.props.setLP("");
+    console.log("cleared");
+    console.groupEnd();
     this.resetAction();
   }
 
@@ -264,6 +249,13 @@ class Main extends PureComponent {
   setFullHeightEl() {
     const heightScreen = window.innerHeight;
     document.getElementsByClassName("Tip-main")[0].setAttribute("style", "height:" + heightScreen + "px");
+  }
+
+  setFullHeightElResizeEvent() {
+    const resizeFn = this.setFullHeightEl.bind(this);
+    window.addEventListener("resize", function() {
+      resizeFn();
+    });
   }
 
   setPrintData({ lp, turn, date, encryptedData, signature, templateURL }) {
@@ -307,7 +299,9 @@ class Main extends PureComponent {
     const isLoading = this.isLoading.bind(this);
 
     socket.onopen = function(event) {
-      console.log("-----> Socket is open");
+      console.group("Cainiao Client");
+      console.log("-----> Cainiao socket is connected");
+      console.groupEnd();
     };
 
     socket.onmessage = function(event) {
@@ -316,14 +310,13 @@ class Main extends PureComponent {
       const turn = response.requestID.split("|")[0];
       const date = response.requestID.split("|")[1];
       const timestamp = moment(response.timeStamp).format("YYYY-MM-DD HH:mm:ss");
-      console.log("-----> WebSocket client received a message", event);
+      console.log("-----> Cainiao client received a message");
       if (response.cmd === "print" && response.status === "success") {
-        console.log("socket subscribe date ", date, ", turn ", turn);
         insertAction(lp, turn, date, timestamp)
           .then(insertRes => {
             showPopUpWithSound("success", lp);
             isLoading(false);
-            console.log("-----> Invoice Print success");
+            console.log("-----> LP is inserted in the server DB");
           })
           .catch(reason => {
             showPopUpWithSound("fail", lp, reason);
@@ -412,25 +405,16 @@ class Main extends PureComponent {
   }
 
   loadTurnOptionsByDate(turns = 1) {
-    // let options = [];
-    // let counter = 1;
     let turnStartFrom1 = turns ? turns : 1;
-
-    // for (counter; counter <= turnStartFrom1; counter++) {
-    //   options.push(
-    //     <option key={counter.toString()} id={"turn-" + counter.toString()}>
-    //       {counter}
-    //     </option>
-    //   );
-    // }
-
     return turnStartFrom1;
   }
 
   /* RENDER */
   render() {
     const { data: { loading, error, queryLpTotal } } = this.props;
-    if (!loading) console.log("-----> Render after loading");
+    if (!loading) {
+      console.log("-----> Render after loading");
+    }
     return (
       <div className="Tip-main">
         <TipStatus date={this.props.date} turn={this.props.turn} total={error ? "Server Query Error" : loading ? "Loading.." : queryLpTotal.totalLP} />

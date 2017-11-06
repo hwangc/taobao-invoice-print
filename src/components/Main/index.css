@@ -1,6 +1,6 @@
 .Tip-main {
   text-align: center;
-  grid-column: 2/log-start;
+  grid-column: 2/log-end;
   grid-row: row-start/4;
   padding: 10px 1em 1em;
   display: grid;
@@ -9,7 +9,7 @@
   grid-template-columns: repeat(9, 1fr); }
   @media screen and (max-width: 1080px) {
     .Tip-main {
-      grid-column: 1/log-start;
+      grid-column: 1/log-end;
       grid-row: row-start/-1;
       z-index: 10;
       background: #969696; } }
@@ -38,58 +38,58 @@
     @media screen and (max-width: 1080px) {
       .Tip-main .scan-section {
         grid-column: 1/-1; } }
-    .Tip-main .scan-section .form-options {
-      display: grid;
-      grid-template-columns: 5fr;
-      grid-template-rows: 1fr;
-      grid-auto-columns: 3fr;
-      padding: 10px 0; }
-      .Tip-main .scan-section .form-options .datePicker {
-        grid-column: 1/2; }
-        .Tip-main .scan-section .form-options .datePicker .react-datepicker-wrapper .react-datepicker__input-container input {
-          text-align: center;
-          background: transparent; }
-      .Tip-main .scan-section .form-options .turnPicker {
-        grid-column: 3/4; }
-        .Tip-main .scan-section .form-options .turnPicker label {
-          margin-right: 12px; }
-        .Tip-main .scan-section .form-options .turnPicker #turnInput {
-          background: transparent;
-          display: inline-block;
-          width: 50%;
-          margin: 0 12px; }
-        .Tip-main .scan-section .form-options .turnPicker select {
-          width: auto;
-          padding-top: 0;
-          height: 30px;
-          padding-bottom: 0;
-          display: inline-block;
-          color: white; }
-          .Tip-main .scan-section .form-options .turnPicker select option {
-            color: gray; }
-      .Tip-main .scan-section .form-options .previewMode {
-        grid-column: 5/6;
-        padding: 0;
-        margin: 0; }
-        @media screen and (max-width: 1080px) {
-          .Tip-main .scan-section .form-options .previewMode input {
-            margin: 16px auto 0;
-            display: block; } }
-        .Tip-main .scan-section .form-options .previewMode input::after {
-          border: 1px solid #fff;
-          width: 14px;
-          height: 14px; }
-        .Tip-main .scan-section .form-options .previewMode input:checked::before {
-          left: 5px;
-          width: 5px;
-          height: 9px; }
-    .Tip-main .scan-section .form-buttons {
-      text-align: right; }
+    .Tip-main .scan-section .form-group .form-fields {
+      margin-bottom: 8em; }
+      .Tip-main .scan-section .form-group .form-fields .form-options {
+        display: grid;
+        grid-template-columns: 5fr;
+        grid-template-rows: 1fr;
+        grid-auto-columns: 3fr;
+        padding: 10px 0; }
+        .Tip-main .scan-section .form-group .form-fields .form-options .datePicker {
+          grid-column: 1/2; }
+          .Tip-main .scan-section .form-group .form-fields .form-options .datePicker .react-datepicker-wrapper .react-datepicker__input-container input {
+            text-align: center;
+            background: transparent; }
+        .Tip-main .scan-section .form-group .form-fields .form-options .turnPicker {
+          grid-column: 3/4; }
+          .Tip-main .scan-section .form-group .form-fields .form-options .turnPicker label {
+            margin-right: 12px; }
+          .Tip-main .scan-section .form-group .form-fields .form-options .turnPicker #turnInput {
+            background: transparent;
+            display: inline-block;
+            width: 50%;
+            margin: 0 12px; }
+          .Tip-main .scan-section .form-group .form-fields .form-options .turnPicker select {
+            width: auto;
+            padding-top: 0;
+            height: 30px;
+            padding-bottom: 0;
+            display: inline-block;
+            color: white; }
+            .Tip-main .scan-section .form-group .form-fields .form-options .turnPicker select option {
+              color: gray; }
+        .Tip-main .scan-section .form-group .form-fields .form-options .previewMode {
+          grid-column: 5/6;
+          padding: 0;
+          margin: 0; }
+          @media screen and (max-width: 1080px) {
+            .Tip-main .scan-section .form-group .form-fields .form-options .previewMode input {
+              margin: 16px auto 0;
+              display: block; } }
+          .Tip-main .scan-section .form-group .form-fields .form-options .previewMode input::after {
+            border: 1px solid #fff;
+            width: 14px;
+            height: 14px; }
+          .Tip-main .scan-section .form-group .form-fields .form-options .previewMode input:checked::before {
+            left: 5px;
+            width: 5px;
+            height: 9px; }
+    .Tip-main .scan-section .form-group .form-buttons {
+      text-align: center; }
   .Tip-main .result-section {
     align-self: center;
     grid-column: 3/8;
     grid-row: 3/4; }
   .Tip-main .scanTitle {
     color: white; }
-  .Tip-main #lp_form {
-    margin-bottom: 6em; }

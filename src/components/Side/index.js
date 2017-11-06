@@ -13,6 +13,7 @@ class Side extends PureComponent {
 
   componentDidMount() {
     this.setFullHeightEl();
+    this.setFullHeightElResizeEvent();
     this.setModalEl();
   }
 
@@ -23,10 +24,21 @@ class Side extends PureComponent {
   }
 
   setFullHeightEl() {
-    const heightScreen = window.innerHeight;
+    let heightScreen = window.innerHeight;
     const headerHeight = document.getElementsByClassName("Tip-header")[0].offsetHeight;
-    const sideHeight = heightScreen - headerHeight;
+    let sideHeight = heightScreen - headerHeight;
+    // console.group("Side");
+    // console.log("header height: ", headerHeight);
+    // console.log("side height: ", sideHeight);
+    // console.groupEnd();
     document.getElementsByClassName("Tip-side")[0].setAttribute("style", "height:" + sideHeight + "px");
+  }
+
+  setFullHeightElResizeEvent() {
+    const resizeFn = this.setFullHeightEl.bind(this);
+    window.addEventListener("resize", function() {
+      resizeFn();
+    });
   }
 
   showFlow(event) {

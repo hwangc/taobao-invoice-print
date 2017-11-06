@@ -1,6 +1,6 @@
 .Tip-main {
   text-align: center;
-  grid-column: 2/log-start;
+  grid-column: 2/log-end;
   grid-row: row-start/4;
   padding: 10px 1em 1em;
   display: grid;
@@ -8,7 +8,7 @@
   grid-template-rows: 70px 1fr 1fr;
   grid-template-columns: repeat(9, 1fr);
   @media screen and (max-width: 1080px) {
-    grid-column: 1/log-start;
+    grid-column: 1/log-end;
     grid-row: row-start/-1;
     z-index: 10;
     background: rgba(150, 150, 150, 1);
@@ -43,70 +43,75 @@
     @media screen and (max-width: 1080px) {
       grid-column: 1/-1;
     }
-    .form-options {
-      display: grid;
-      grid-template-columns: 5fr;
-      grid-template-rows: 1fr;
-      grid-auto-columns: 3fr;
-      padding: 10px 0;
-      .datePicker {
-        grid-column: 1/2;
-        .react-datepicker-wrapper {
-          .react-datepicker__input-container {
-            input {
-              text-align: center;
+    .form-group {
+      .form-fields {
+        margin-bottom: 8em;
+        .form-options {
+          display: grid;
+          grid-template-columns: 5fr;
+          grid-template-rows: 1fr;
+          grid-auto-columns: 3fr;
+          padding: 10px 0;
+          .datePicker {
+            grid-column: 1/2;
+            .react-datepicker-wrapper {
+              .react-datepicker__input-container {
+                input {
+                  text-align: center;
+                  background: transparent;
+                }
+              }
+            }
+          }
+          .turnPicker {
+            grid-column: 3/4;
+            label {
+              margin-right: 12px;
+            }
+            #turnInput {
               background: transparent;
+              display: inline-block;
+              width: 50%;
+              margin: 0 12px;
+            }
+            select {
+              width: auto;
+              padding-top: 0;
+              height: 30px;
+              padding-bottom: 0;
+              display: inline-block;
+              color: white;
+              option {
+                color: gray;
+              }
+            }
+          }
+          .previewMode {
+            grid-column: 5/6;
+            padding: 0;
+            margin: 0;
+            input {
+              @media screen and (max-width: 1080px) {
+                margin: 16px auto 0;
+                display: block;
+              }
+              &::after {
+                border: 1px solid #fff;
+                width: 14px;
+                height: 14px;
+              }
+              &:checked::before {
+                left: 5px;
+                width: 5px;
+                height: 9px;
+              }
             }
           }
         }
       }
-      .turnPicker {
-        grid-column: 3/4;
-        label {
-          margin-right: 12px;
-        }
-        #turnInput {
-          background: transparent;
-          display: inline-block;
-          width: 50%;
-          margin: 0 12px;
-        }
-        select {
-          width: auto;
-          padding-top: 0;
-          height: 30px;
-          padding-bottom: 0;
-          display: inline-block;
-          color: white;
-          option {
-            color: gray;
-          }
-        }
+      .form-buttons {
+        text-align: center;
       }
-      .previewMode {
-        grid-column: 5/6;
-        padding: 0;
-        margin: 0;
-        input {
-          @media screen and (max-width: 1080px) {
-            margin: 16px auto 0;
-            display: block;
-          }
-          &::after {
-            border: 1px solid #fff;
-            width: 14px;
-            height: 14px;
-          }
-          &:checked::before {
-            left: 5px;
-            width: 5px;
-            height: 9px;
-          }
-        }
-      }
-    }
-    .form-buttons {
-      text-align: right;
     }
   }
   .result-section {
@@ -116,8 +121,5 @@
   }
   .scanTitle {
     color: white;
-  }
-  #lp_form {
-    margin-bottom: 6em;
   }
 }

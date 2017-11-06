@@ -5,7 +5,7 @@ export function doPrint(request) {
   return new Promise((resolve, reject) => {
     if (socketConnStatus()) {
       socket.send(JSON.stringify(request));
-      console.log("===> Generated Invoice data Sent to Cainiao successfully ", request);
+      console.log("-----> Sent data to Cainiao printing tool");
       resolve({ result: "success", socketReady: socket.readyState });
     } else {
       reject("The Pinter is not yet ready. Please wait or restart the print. Printer Status: " + socket.readyState);

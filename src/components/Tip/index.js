@@ -54,7 +54,7 @@ class Tip extends Component {
           loadingChecker={loading => this.checkIsLoading(loading)}
         />
         {/* <Log /> */}
-        <Footer />
+        {<Footer />}
       </div>
     );
   }
