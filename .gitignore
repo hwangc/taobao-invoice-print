@@ -8,7 +8,7 @@
 /src/services/temp
 
 # production
-/build
+# /build !!!!!!!!!! in case the failure of build from the remote server, commit build from local
 
 # misc
 .DS_Store
