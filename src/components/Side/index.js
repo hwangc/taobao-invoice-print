@@ -36,7 +36,7 @@ class Side extends PureComponent {
 
   setFullHeightElResizeEvent() {
     const resizeFn = this.setFullHeightEl.bind(this);
-    window.addEventListener("resize", function() {
+    window.addEventListener("resize", function () {
       resizeFn();
     });
   }
@@ -89,6 +89,7 @@ class Side extends PureComponent {
               <a href="http://cdn-cloudprint.cainiao.com/waybill-print/client/CNPrintSetup.exe">CAINIAO Printing Tool</a>
             </li>
             <li>Printer</li>
+            <li><a href="http://open.taobao.com/apitools/sessionPage.htm">Renewal</a> Session key per year</li>
           </ul>
           <span className="Tip-about">
             <i className="fa fa-code fa-lg" aria-hidden="true" /> Development
